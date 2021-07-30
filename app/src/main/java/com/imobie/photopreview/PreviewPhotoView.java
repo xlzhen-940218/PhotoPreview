@@ -96,20 +96,20 @@ public class PreviewPhotoView extends RelativeLayout {
                             touchY = event.getY();
                             boolean bottom = touchY > centerY;
                             if ((distanceY > 0 && bottom) || (distanceY < 0 && !bottom)) {
-                                if (backgroundView.getAlpha() > 0)
-                                    backgroundView.setAlpha(backgroundView.getAlpha() - 0.01f);
-                                if (previewImageView.getScaleX() > 0)
-                                    previewImageView.setScaleX(previewImageView.getScaleX() - 0.005f);
-                                if (previewImageView.getScaleY() > 0)
-                                    previewImageView.setScaleY(previewImageView.getScaleY() - 0.005f);
-                            } else {
-                                if (backgroundView.getAlpha() < 1)
-                                    backgroundView.setAlpha(backgroundView.getAlpha() + 0.02f);
-                                if (previewImageView.getScaleX() < 1)
-                                    previewImageView.setScaleX(previewImageView.getScaleX() + 0.005f);
-                                if (previewImageView.getScaleY() < 1)
-                                    previewImageView.setScaleY(previewImageView.getScaleY() + 0.005f);
-                            }
+								if (backgroundView.getAlpha() > 0)
+									backgroundView.setAlpha(backgroundView.getAlpha() - 0.01f);
+								if (previewImageView.getScaleX() > 0)
+									previewImageView.setScaleX(previewImageView.getScaleX() - 0.01f);
+								if (previewImageView.getScaleY() > 0)
+									previewImageView.setScaleY(previewImageView.getScaleY() - 0.01f);
+							} else {
+								if (backgroundView.getAlpha() < 1)
+									backgroundView.setAlpha(backgroundView.getAlpha() + 0.02f);
+								if (previewImageView.getScaleX() <= 1)
+									previewImageView.setScaleX(previewImageView.getScaleX() + 0.02f);
+								if (previewImageView.getScaleY() <= 1)
+									previewImageView.setScaleY(previewImageView.getScaleY() + 0.02f);
+							}
                         } else {
                             multipleTouch = true;
                             //多点触摸图片进行放大缩小
