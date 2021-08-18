@@ -1,2 +1,2 @@
 # Imitate iOS preview image
-Use the animation connection when opening and ending the preview, and interact with the small picture before the preview
+This is an Android plug-in imitating iOS photo preview. The preview image is expanded and displayed from the thumbnail position. Close to return to the thumbnail position of the current picture. Animation display, pull down to close.
