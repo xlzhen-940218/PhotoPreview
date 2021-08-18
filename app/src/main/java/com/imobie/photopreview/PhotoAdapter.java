@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.Collection;
 import java.util.List;
 
 public class PhotoAdapter extends BaseAdapter {
@@ -53,5 +54,9 @@ public class PhotoAdapter extends BaseAdapter {
     public void setData(List<PhotoBean> beans) {
         this.photoBeans=beans;
         notifyDataSetChanged();
+    }
+
+    public List<PhotoBean> getData() {
+        return photoBeans;
     }
 }

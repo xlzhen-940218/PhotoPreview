@@ -3,6 +3,7 @@ package com.imobie.photopreview;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.imobie.photolib.cache.ImagePreviewCache;
+import com.imobie.photolib.cache.PreviewRectImage;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -22,9 +25,7 @@ public class MainActivity extends Activity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private GridView photoGridView;
     private PhotoAdapter photoAdapter;
-
-    private PreviewPhotoView previewPhotoView;
-
+    private List<String> files;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +34,18 @@ public class MainActivity extends Activity {
         photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                previewPhotoView = new PreviewPhotoView(MainActivity.this);
-                previewPhotoView.setCallback(new PreviewPhotoView.Callback() {
-                    @Override
-                    public void removeView(View view) {
-                        ((ViewGroup) findViewById(android.R.id.content)).removeView(view);
+                if(files==null||files.size()!=photoAdapter.getCount()){
+                    ArrayList<String> files = new ArrayList<>();
+                    for (PhotoBean bean : photoAdapter.getData()) {
+                        files.add(bean.get_data());
                     }
-                });
-                ((ViewGroup) findViewById(android.R.id.content)).addView(previewPhotoView);
+                    MainActivity.this.files=files;
+                }
 
-                previewPhotoView.startPreview(view, photoAdapter.getItem(position));
+                ImagePreviewCache.setCache(photoGridView,files);
+                Intent intent=new Intent(MainActivity.this,PhotoPlayerActivity.class);
+                intent.putExtra("previewPosition",position);
+                startActivity(intent);
             }
         });
         imageLoaderConfig();
@@ -105,13 +108,5 @@ public class MainActivity extends Activity {
         com.nostra13.universalimageloader.utils.L.writeLogs(false);
         com.nostra13.universalimageloader.utils.L.writeDebugLogs(false);
         ImageLoader.getInstance().init(config);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (previewPhotoView != null && previewPhotoView.onBack()) {
-            return;
-        }
-        super.onBackPressed();
     }
 }
